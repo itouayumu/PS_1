@@ -13,6 +13,7 @@ class MyScene extends Phaser.Scene {
          // 画像の読み込み(使用する時の名前, パス)
         this.load.image('sky', 'assets/background.png');
         this.load.image('taro', 'assets/taro.png');
+        this.load.image('jiro', 'assets/taro.png');
     }
 
     // シーン初期化処理
@@ -23,8 +24,14 @@ class MyScene extends Phaser.Scene {
         const player = this.physics.add.sprite(500, 350, 'taro');
         this.player = player
         this.player.angle = 0;
+        const player2 = this.physics.add.sprite(400, 350, 'jiro');
+        this.player2 = player2
 
-    
+        this._leftTime = 'MyWorld';
+        this._message1 = 'hello!';
+        this._message2 = 'hey!';
+  
+
 
 
     }
@@ -46,21 +53,52 @@ class MyScene extends Phaser.Scene {
         //  }
 
 
-        if (this.player.y >= D_WIDTH - 400) this.player_direction3 = -1;
-        if (this.player.y <= 30) this.player_direction3 = 1;
-        if (this.player.x >= D_WIDTH - 100) this.player_direction3 = -1;
-        if (this.player.x <= 0) this.player_direction3 = 1;
-        // プレイヤーの移動
+        // if (this.player.y >= D_WIDTH - 400) this.player_direction3 = -1;
+        // if (this.player.y <= 30) this.player_direction3 = 1;
+        // if (this.player.x >= D_WIDTH - 100) this.player_direction3 = -1;
+        // if (this.player.x <= 0) this.player_direction3 = 1;
 
-            this.player.y -= 5;// 横方向へ移動を設定
-            this.player.x += 5;// 横方向へ移動を設定
+        //     this.player.y -= 5;
+        //     this.player.x += 5;
 
-        this.player.angle += 5;
-        this.player.setAngle( this.player.angle );
-        if (this.player.x >= D_WIDTH - 100) this.player_direction = 1;
-         if (this.player_direction == 1) {
-            reset
-         }
+        // this.player.angle += 5;
+        // this.player.setAngle( this.player.angle );
+        // if (this.player.x >= D_WIDTH - 100) this.player_direction = 1;
+        //  if (this.player_direction == 1) {
+        //     reset
+        //  }
+
+        let cursors = this.input.keyboard.createCursorKeys();
+
+        if (cursors.up.isDown) {
+
+
+
+        this.player2.y -= 50;
+        this.player.y += 50;
+
+
+        } else if (cursors.down.isDown) {
+
+ 
+
+        this.player2.y += 5;
+        this.player.y -= 50;
+
+
+        } else if (cursors.left.isDown) {
+
+
+        this.player2.x -= 50;
+        this.player.x += 50;
+
+
+        } else if (cursors.right.isDown) {
+
+
+        this.player2.x += 50;
+        this.player.x -= 50;
+        }
     }
 
 }
