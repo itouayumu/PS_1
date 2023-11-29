@@ -27,11 +27,16 @@ class MyScene extends Phaser.Scene {
         const player2 = this.physics.add.sprite(400, 350, 'jiro');
         this.player2 = player2
 
-        this._leftTime = 'MyWorld';
-        this._message1 = 'hello!';
-        this._message2 = 'hey!';
+        this.Text = this.add.text(600, 400, 'MyWorld', { fontSize: '28px', fill: '#FFF' ,fontFamily: "Arial"});
+        this.a_Text = this.add.text(100, 50, '', { fontSize: '28px', fill: '#FFF' ,fontFamily: "Arial"});
+        this.s_Text = this.add.text(100, 50, '', { fontSize: '28px', fill: '#FFF' ,fontFamily: "Arial"});
   
-
+        ///WASDキーを検知できるようにする
+        this.keys = {};
+        this.keys.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.keys.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.keys.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+       
 
 
     }
@@ -99,6 +104,20 @@ class MyScene extends Phaser.Scene {
         this.player2.x += 50;
         this.player.x -= 50;
         }
+        this.wasd_move(this.keys, this.a_Text);
+        this.wasd_move(this.keys, this.s_Text);
+        
+    }
+    wasd_move(keys, object){
+        if(keys.keyS.isDown){
+            this.s_Text.setText('Hey!');
+        }else if(keys.keyA.isDown){
+            this.a_Text.setText('Hello!');
+        }else if(keys.keyD.isDown){
+            this.a_Text.setText('');
+            this.s_Text.setText('');
+        }
+
     }
 
 }
