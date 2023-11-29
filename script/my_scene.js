@@ -34,38 +34,33 @@ class MyScene extends Phaser.Scene {
 
 
 
-    // update() {
-        // プレイヤーの向きフラグを変更
-         if (this.player.x >= D_WIDTH - 100) this.player_direction = -1;
-         if (this.player.x <= 450) this.player_direction = 1;
- 
-         // プレイヤーの移動
-         // +X方向の移動フラグならプレイヤーを右に移動
+
+        //  if (this.player.x >= D_WIDTH - 100) this.player_direction = -1;
+        //  if (this.player.x <= 450) this.player_direction = 1;
+        //  if (this.player_direction == 1) {
+        //      this.player.setVelocityX(100);
+        //      this.player.setVelocityY(-100);
+        //  } else {
+        //     this.player.setVelocityX(-100);
+        //     this.player.setVelocityY(100);
+        //  }
+
+
+        if (this.player.y >= D_WIDTH - 400) this.player_direction3 = -1;
+        if (this.player.y <= 30) this.player_direction3 = 1;
+        if (this.player.x >= D_WIDTH - 100) this.player_direction3 = -1;
+        if (this.player.x <= 0) this.player_direction3 = 1;
+        // プレイヤーの移動
+
+            this.player.y -= 5;// 横方向へ移動を設定
+            this.player.x += 5;// 横方向へ移動を設定
+
+        this.player.angle += 5;
+        this.player.setAngle( this.player.angle );
+        if (this.player.x >= D_WIDTH - 100) this.player_direction = 1;
          if (this.player_direction == 1) {
-             this.player.setVelocityX(100);
-             this.player.setVelocityY(-100);
- 
-         // -X方向の移動フラグならプレイヤーを左に移動
-         } else {
-            this.player.setVelocityX(-100);
-            this.player.setVelocityY(100);
+            reset
          }
-
-
-        // if (this.player.y >= D_WIDTH - 400) this.player_direction3 = -1;
-        // if (this.player.y <= 30) this.player_direction3 = 1;
-        // if (this.player.x >= D_WIDTH - 100) this.player_direction3 = -1;
-        // if (this.player.x <= 0) this.player_direction3 = 1;
-        // // プレイヤーの移動
-
-        //     this.player.y -= 5;// 横方向へ移動を設定
-        //     this.player.x += 5;// 横方向へ移動を設定
-
-        // this.player.angle += 5;
-        // this.player.setAngle( this.player.angle );
-
-
-
     }
 
 }
