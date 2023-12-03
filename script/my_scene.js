@@ -31,9 +31,9 @@ class MyScene extends Phaser.Scene {
         this.Text = this.add.text(600, 400, 'MyWorld', { fontSize: '28px', fill: '#FFF' ,fontFamily: "Arial"});
         this.a_Text = this.add.text(100, 50, '', { fontSize: '28px', fill: '#FFF' ,fontFamily: "Arial"});
         this.s_Text = this.add.text(100, 50, '', { fontSize: '28px', fill: '#FFF' ,fontFamily: "Arial"});
-        let  randx = Phaser.Math.Between(50, 750) ; 
-        let randy =  Phaser.Math.Between(50, 200) ; 
-        this.w_hanako = this.add.image(randx, randy , 'hanako')
+        // let  randx = Phaser.Math.Between(50, 750) ; 
+        // let randy =  Phaser.Math.Between(50, 200) ; 
+        this.w_hanako = this.add.image(500, 500 , 'hanako')
         ///WASDキーを検知できるようにする
         this.keys = {};
         this.keys.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -42,11 +42,46 @@ class MyScene extends Phaser.Scene {
         this.keys.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
 
-
+        this._timeCounter = 0; 
+        this.time = 0;
     }
     
   // 毎フレーム実行される繰り返し処理
-    update() {
+  update(time, delta) {
+    let cursors = this.input.keyboard.createCursorKeys();
+
+    if (cursors.up.isDown) {
+        this.player2.y -= 50;
+        this.player.y += 50;
+    } else if (cursors.down.isDown) {
+        this.player2.y += 5;
+        this.player.y -= 50;
+    } else if (cursors.left.isDown) {
+        this.player2.x -= 50;
+        this.player.x += 50;
+    } else if (cursors.right.isDown) {
+        this.player2.x += 50;
+        this.player.x -= 50;
+    }
+
+    this.wasd_move(this.keys, this.a_Text);
+    this.wasd_move(this.keys, this.s_Text);
+    this.wasd_move(this.keys, this.w_hanako);
+
+    this._timeCounter += delta;
+    if (this._timeCounter >= 3000) {
+        this._timeCounter = 0;
+        this.time++;
+
+        if (this.time === 3) {
+            let randX = Phaser.Math.Between(200, 400);
+            let randY = Phaser.Math.Between(100, 200);
+
+            this.w_hanako.setPosition(randX, randY);
+        }
+    }
+}
+
 
 
 
@@ -77,42 +112,7 @@ class MyScene extends Phaser.Scene {
         //     reset
         //  }
 
-        let cursors = this.input.keyboard.createCursorKeys();
 
-        if (cursors.up.isDown) {
-
-
-
-        this.player2.y -= 50;
-        this.player.y += 50;
-
-
-        } else if (cursors.down.isDown) {
-
- 
-
-        this.player2.y += 5;
-        this.player.y -= 50;
-
-
-        } else if (cursors.left.isDown) {
-
-
-        this.player2.x -= 50;
-        this.player.x += 50;
-
-
-        } else if (cursors.right.isDown) {
-
-
-        this.player2.x += 50;
-        this.player.x -= 50;
-        }
-        this.wasd_move(this.keys, this.a_Text);
-        this.wasd_move(this.keys, this.s_Text);
-        this.wasd_move(this.keys, this.w_hanako);
-        
-    }
     wasd_move(keys, object){
         if(keys.keyS.isDown){
             this.s_Text.setText('Hey!');
@@ -121,9 +121,11 @@ class MyScene extends Phaser.Scene {
         }else if(keys.keyD.isDown){
             this.a_Text.setText('');
             this.s_Text.setText('');
-        }else if(keys.keyW.isDown){
-            this.w_hanak.setImage();
+        // }else if(keys.keyW.isDown){
+        //     let randX = Phaser.Math.Between(100, 400);
+        //     this.w_hanako.setPosition(randX, 100);
+        // }
         }
+    }
 
-}
 }
