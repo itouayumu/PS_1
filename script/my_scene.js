@@ -155,14 +155,15 @@ class MyScene extends Phaser.Scene {
         }
     }
     attack_hanako(player, hanako) {
-        // The attack_hanako method will be executed when
-        // player collides with hanako or hanako collides with hanako
+
         this.Text.setText('痛い');
         hanako.destroy();
+        this.physics.pause();
+        this.player.setTint(0x999999);
     }
 
     generateHanako() {
-        // Generate hanako
+
         let randX = Phaser.Math.Between(200, 400);
         let randY = Phaser.Math.Between(100, 200);
         this.hanako.create(randX, randY, 'hanako');
