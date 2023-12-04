@@ -154,12 +154,11 @@ class MyScene extends Phaser.Scene {
         // }
         }
     }
-    attack_hanako(object1, object2) {
+    attack_hanako(player, hanako) {
         // The attack_hanako method will be executed when
         // player collides with hanako or hanako collides with hanako
         this.Text.setText('痛い');
-        object1.body.setVelocity(0);
-        object2.body.setVelocity(0);
+        hanako.destroy();
     }
 
     generateHanako() {
