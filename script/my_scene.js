@@ -25,15 +25,39 @@ class MyScene extends Phaser.Scene {
         const player = this.physics.add.sprite(500, 350, 'taro');
         this.player = player
         this.player.angle = 0;
-        const player2 = this.physics.add.sprite(400, 350, 'jiro');
-        this.player2 = player2
+        // const player2 = this.physics.add.sprite(400, 350, 'jiro');
+        // this.player2 = player2
+        this.hanako = this.physics.add.group();
 
         this.Text = this.add.text(600, 400, 'MyWorld', { fontSize: '28px', fill: '#FFF' ,fontFamily: "Arial"});
         this.a_Text = this.add.text(100, 50, '', { fontSize: '28px', fill: '#FFF' ,fontFamily: "Arial"});
         this.s_Text = this.add.text(100, 50, '', { fontSize: '28px', fill: '#FFF' ,fontFamily: "Arial"});
         // let  randx = Phaser.Math.Between(50, 750) ; 
         // let randy =  Phaser.Math.Between(50, 200) ; 
-        this.w_hanako = this.add.image(500, 500 , 'hanako')
+        this.physics.world.setBounds(0, 0, 800, 600);
+
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(true);
+        this.input.keyboard.createCursorKeys();
+
+        this.physics.world.on('worldbounds', function (body) {
+            if (body.gameObject === player) {
+                player.setVelocityX(0);
+                player.setVelocityY(0);
+            }
+        });
+        this.physics.add.collider(player, this.hanako, this.attack_hanako, null, this);
+        this.physics.add.collider(this.hanako, this.hanako, this.attack_hanako, null, this);
+
+        this.time.addEvent({
+            delay: 3000,
+            callback: this.generateHanako,
+            callbackScope: this,
+            loop: false 
+        });
+    
+
+
         ///WASDキーを検知できるようにする
         this.keys = {};
         this.keys.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -51,19 +75,20 @@ class MyScene extends Phaser.Scene {
     let cursors = this.input.keyboard.createCursorKeys();
 
     if (cursors.up.isDown) {
-        this.player2.y -= 50;
-        this.player.y += 50;
+        this.player.setVelocityY(-200);
     } else if (cursors.down.isDown) {
-        this.player2.y += 5;
-        this.player.y -= 50;
-    } else if (cursors.left.isDown) {
-        this.player2.x -= 50;
-        this.player.x += 50;
-    } else if (cursors.right.isDown) {
-        this.player2.x += 50;
-        this.player.x -= 50;
+        this.player.setVelocityY(200);
+    } else {
+        this.player.setVelocityY(0);
     }
 
+    if (cursors.left.isDown) {
+        this.player.setVelocityX(-200);
+    } else if (cursors.right.isDown) {
+        this.player.setVelocityX(200);
+    } else {
+        this.player.setVelocityX(0);
+    }
     this.wasd_move(this.keys, this.a_Text);
     this.wasd_move(this.keys, this.s_Text);
     this.wasd_move(this.keys, this.w_hanako);
@@ -74,10 +99,12 @@ class MyScene extends Phaser.Scene {
         this.time++;
 
         if (this.time === 3) {
-            let randX = Phaser.Math.Between(200, 400);
-            let randY = Phaser.Math.Between(100, 200);
-
-            this.w_hanako.setPosition(randX, randY);
+          
+            hanako.children.iterate(function (hanako) {
+                let randX = Phaser.Math.Between(200, 400);
+                let randY = Phaser.Math.Between(100, 200);
+                hanako.setPosition(randX, randY);
+            });
         }
     }
 }
@@ -126,6 +153,20 @@ class MyScene extends Phaser.Scene {
         //     this.w_hanako.setPosition(randX, 100);
         // }
         }
+    }
+    attack_hanako(object1, object2) {
+        // The attack_hanako method will be executed when
+        // player collides with hanako or hanako collides with hanako
+        this.Text.setText('痛い');
+        object1.body.setVelocity(0);
+        object2.body.setVelocity(0);
+    }
+
+    generateHanako() {
+        // Generate hanako
+        let randX = Phaser.Math.Between(200, 400);
+        let randY = Phaser.Math.Between(100, 200);
+        this.hanako.create(randX, randY, 'hanako');
     }
 
 }
